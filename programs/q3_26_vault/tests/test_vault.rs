@@ -145,7 +145,11 @@ fn close_ix(user: Pubkey, vault_state: Pubkey, vault: Pubkey) -> Instruction {
 // initialize + deposit, used by most tests
 fn open_vault(c: &mut Ctx, amount: u64) {
     let user = c.user.pubkey();
-    send(&mut c.svm, &c.user, initialize_ix(user, c.vault_state, c.vault));
+    send(
+        &mut c.svm,
+        &c.user,
+        initialize_ix(user, c.vault_state, c.vault),
+    );
     send(
         &mut c.svm,
         &c.user,
@@ -158,7 +162,11 @@ fn full_flow() {
     let mut c = setup();
     let user = c.user.pubkey();
 
-    send(&mut c.svm, &c.user, initialize_ix(user, c.vault_state, c.vault));
+    send(
+        &mut c.svm,
+        &c.user,
+        initialize_ix(user, c.vault_state, c.vault),
+    );
 
     let rent_exempt = c.svm.minimum_balance_for_rent_exemption(0);
     assert!(
@@ -209,7 +217,11 @@ fn full_flow() {
 fn cannot_initialize_twice() {
     let mut c = setup();
     let user = c.user.pubkey();
-    send(&mut c.svm, &c.user, initialize_ix(user, c.vault_state, c.vault));
+    send(
+        &mut c.svm,
+        &c.user,
+        initialize_ix(user, c.vault_state, c.vault),
+    );
 
     let res = try_send(
         &mut c.svm,
@@ -223,7 +235,11 @@ fn cannot_initialize_twice() {
 fn deposit_zero_fails() {
     let mut c = setup();
     let user = c.user.pubkey();
-    send(&mut c.svm, &c.user, initialize_ix(user, c.vault_state, c.vault));
+    send(
+        &mut c.svm,
+        &c.user,
+        initialize_ix(user, c.vault_state, c.vault),
+    );
 
     expect_custom_err(
         &mut c.svm,

@@ -31,4 +31,12 @@ pub mod in_kind_vault {
     pub fn deallocate(ctx: Context<Rebalance>, amount: u64) -> Result<()> {
         ctx.accounts.deallocate(amount)
     }
+
+    pub fn redeem(ctx: Context<Redeem>, shares: u64) -> Result<()> {
+        ctx.accounts.redeem(shares)
+    }
+
+    pub fn redeem_in_kind(ctx: Context<RedeemInKind>, shares: u64) -> Result<()> {
+        ctx.accounts.redeem_in_kind(shares)
+    }
 }

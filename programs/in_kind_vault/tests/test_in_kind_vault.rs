@@ -133,24 +133,20 @@ fn create_market(svm: &mut LiteSVM, admin: &Keypair) -> Market {
     }
 }
 
+fn deploy_path(file: &str) -> std::path::PathBuf {
+    std::path::Path::new(env!("CARGO_TARGET_TMPDIR"))
+        .join("../deploy")
+        .join(file)
+}
+
 fn setup() -> Env {
     let mut svm = LiteSVM::new();
-    svm.add_program(
-        mock_market::id(),
-        include_bytes!(concat!(
-            env!("CARGO_TARGET_TMPDIR"),
-            "/../deploy/mock_market.so"
-        )),
-    )
-    .unwrap();
-    svm.add_program(
-        in_kind_vault::id(),
-        include_bytes!(concat!(
-            env!("CARGO_TARGET_TMPDIR"),
-            "/../deploy/in_kind_vault.so"
-        )),
-    )
-    .unwrap();
+    // read at runtime instead of include_bytes!: anchor build compiles this
+    // test during in_kind_vault's idl step, before mock_market.so exists
+    svm.add_program_from_file(mock_market::id(), deploy_path("mock_market.so"))
+        .expect("mock_market.so missing, run anchor build first");
+    svm.add_program_from_file(in_kind_vault::id(), deploy_path("in_kind_vault.so"))
+        .expect("in_kind_vault.so missing, run anchor build first");
 
     let curator = Keypair::new();
     let admin = Keypair::new();

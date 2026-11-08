@@ -31,10 +31,12 @@ pub struct Withdraw<'info> {
 impl<'info> Withdraw<'info> {
     pub fn withdraw(&mut self, amount: u64) -> Result<()> {
         require!(amount > 0, ErrorCode::InvalidAmount);
-        require!(
-            amount <= self.vault.lamports(),
-            ErrorCode::InsufficientBalance
-        );
+
+        // the vault has to stay rent exempt, so only what's above the
+        // minimum can come out here. close() is the way to drain it fully.
+        let rent_exempt = Rent::get()?.minimum_balance(self.vault.data_len());
+        let available = self.vault.lamports().saturating_sub(rent_exempt);
+        require!(amount <= available, ErrorCode::InsufficientBalance);
 
         let cpi_program = self.system_program.key();
 

@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 
 #[error_code]
 pub enum ErrorCode {
-    #[msg("Deposit amount must be greater than zero")]
+    #[msg("Amount must be greater than zero")]
     InvalidAmount,
     #[msg("Insufficient vault balance")]
     InsufficientBalance,

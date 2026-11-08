@@ -23,4 +23,12 @@ pub mod in_kind_vault {
     pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
         ctx.accounts.deposit(amount)
     }
+
+    pub fn allocate(ctx: Context<Rebalance>, amount: u64) -> Result<()> {
+        ctx.accounts.allocate(amount)
+    }
+
+    pub fn deallocate(ctx: Context<Rebalance>, amount: u64) -> Result<()> {
+        ctx.accounts.deallocate(amount)
+    }
 }

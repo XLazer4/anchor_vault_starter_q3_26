@@ -1,0 +1,26 @@
+pub mod constants;
+pub mod error;
+pub mod instructions;
+pub mod math;
+pub mod state;
+
+use anchor_lang::prelude::*;
+
+pub use constants::*;
+pub use instructions::*;
+pub use state::*;
+
+declare_id!("36jaqkMuBwvLwnADnHn1rTJ7GrwyCFgNCNLJgbXw2Kk1");
+
+#[program]
+pub mod in_kind_vault {
+    use super::*;
+
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        ctx.accounts.initialize(&ctx.bumps)
+    }
+
+    pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
+        ctx.accounts.deposit(amount)
+    }
+}

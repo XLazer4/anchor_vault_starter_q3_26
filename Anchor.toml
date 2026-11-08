@@ -10,6 +10,7 @@ skip-lint = false
 [programs.localnet]
 q3_26_vault = "aNksHVU3gU1mjCPtTBsVk9S7qokAUvXfotB2jBxQQvv"
 mock_market = "Gvp82d7hxx5ddToKNAQWbdRa3KUsUk3tReTSHziWdRaQ"
+in_kind_vault = "36jaqkMuBwvLwnADnHn1rTJ7GrwyCFgNCNLJgbXw2Kk1"
 
 [provider]
 cluster = "localnet"
